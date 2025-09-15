@@ -12,6 +12,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { setUrl ("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/bootstrap" )}
+        maven { setUrl ("https://jitpack.io" )}
 
     }
 }
