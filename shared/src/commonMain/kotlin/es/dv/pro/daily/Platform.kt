@@ -1,7 +1,10 @@
 package es.dv.pro.daily
 
-interface Platform {
-    val name: String
-}
+expect class Platform {
 
-expect fun getPlatform(): Platform
+    val osName: String
+    val deviseModel:String
+    val osVersion:String
+    val density:Int
+    fun logSystem()
+}
