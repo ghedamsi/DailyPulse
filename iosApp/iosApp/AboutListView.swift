@@ -11,13 +11,37 @@ import shared
 
 import SwiftUI
 
-struct AboutScreen: View {
+struct AboutListView: View {
+    private struct RowItems:Hashable{
+        let title:String
+        let subTitle:String
+    }
+
+    private let items: [RowItems] = {
+        let platfrom = Platform()
+        platfrom.logSystem()
+        var result: [RowItems] = [
+            .init(title: "Operating System", subTitle: "\(platfrom.osName) \(platfrom.osVersion)"),
+            .init(title: "Device", subTitle: platfrom.deviseModel),
+            .init(title: "Density", subTitle: "\(platfrom.density)x")
+        ]
+        return result
+    }()
+
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                ContentViews()
+        List{
+            ForEach(items,id: \.self){item in
+                VStack(alignment:.leading){
+                    Text(item.title)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    Text(item.subTitle)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+            
+                }.padding(.vertical,4)
             }
-            .navigationTitle("Android Device")
         }
     }
 }
@@ -51,10 +75,10 @@ struct RowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.subheadline)
-                .foregroundColor(.gray)
+                .font(.footnote)
+                .foregroundColor(.primary)
             Text(subTitle)
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(.gray)
             Divider()
         }
@@ -66,8 +90,6 @@ struct RowView: View {
 // Dummy Platform struct to simulate your data source
 
 
-struct AboutScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutScreen()
-    }
+#Preview {
+    AboutListView()
 }
