@@ -1,9 +1,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showOpenAbout=false
 
 	var body: some View {
-        ArticlesScreen(viewModel: .init())
+        NavigationStack{
+            ArticlesScreen(viewModel: .init())
+        .toolbar{
+            ToolbarItem{
+                Button{
+                    showOpenAbout=true
+                } label: {
+                    Label("About", systemImage: "info.circle")
+                        .labelStyle(.titleAndIcon)
+                }.popover(isPresented: $showOpenAbout){
+                    AboutScreen()
+                    
+                }
+            }
+        }
+        }
 	}
 }
 
