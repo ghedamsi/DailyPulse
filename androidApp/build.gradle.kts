@@ -43,7 +43,7 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.activity.compose)
-    implementation( libs.coil.compose )  // check latest version
-
+    implementation( libs.coil.compose )
+    implementation(libs.androidx.navigation.compose.android)  // check latest version
     debugImplementation(libs.compose.ui.tooling)
 }

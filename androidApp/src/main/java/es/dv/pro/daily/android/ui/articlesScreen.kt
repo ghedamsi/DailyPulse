@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -19,7 +23,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,11 +37,12 @@ import coil.compose.AsyncImage
 
 @Composable
 fun articlesScreen(
+    onAboutBackButton:() ->Unit,
     articlesViewModel: ArticlesViewModel
 ) {
     val articlesStates=articlesViewModel.articleState.collectAsState()
     Column {
-        appBar()
+        appBar(onAboutBackButton)
         if (articlesStates.value.loading)
             Loader()
         if(articlesStates.value.error!=null)
@@ -47,12 +56,26 @@ fun articlesScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun appBar(){
+private fun appBar(
+    onAboutBackButton:() ->Unit,
+    ){
     TopAppBar(
         title = {
             Text(text =
-            "Articles")
+            "Articles",
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp,
+                style = TextStyle(Color.Black, fontWeight=FontWeight.Bold)
+            )
 
+        },
+        actions = {
+            IconButton(onClick = onAboutBackButton) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "About Device Button"
+                )
+            }
         }
     )
 }
@@ -72,13 +95,20 @@ private fun ArticleItemView(article: Article){
 
         AsyncImage(
             model=article.imageUrl,
-            contentDescription=null
+            contentDescription=null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale= ContentScale.Crop
+
 
         )
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text =article.desc)
+        Text(text =article.desc,
+            fontSize =18.sp,
+            style = TextStyle(Color.Black, fontWeight=FontWeight.Bold)
+        )
         Spacer(modifier = Modifier.height(4.dp))
         Text(text =article.desc,
+            fontSize =16.sp,
             style = TextStyle(color = Color.Gray),
             modifier = Modifier.align(Alignment.End)
         )
